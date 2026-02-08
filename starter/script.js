@@ -6,28 +6,28 @@
 
 // Data
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'Nofisat Titilayo',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
 };
 
 const account2 = {
-  owner: 'Jessica Davis',
+  owner: 'Rofiat Opeyemi',
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
 };
 
 const account3 = {
-  owner: 'Steven Thomas Williams',
+  owner: 'Leogold Wuraola Falilat',
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
 };
 
 const account4 = {
-  owner: 'Sarah Smith',
+  owner: 'Taiwo Samuel',
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
@@ -78,7 +78,6 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements);
 
 const calcDisplayBalance = function (movements) {
 
@@ -87,16 +86,14 @@ const calcDisplayBalance = function (movements) {
   labelBalance.textContent = `${banlance}€`;
 };
 
-calcDisplayBalance(account1.movements);
-
-const calcDisplaySummary = function (movements) {
-  const incomes = movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0); 
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0); 
   labelSumIn.textContent = `${incomes}€`
 
-  const out = movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0); 
+  const out = acc.movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0); 
   labelSumOut.textContent = `${Math.abs(out)}€`
 
-  const interest = movements.filter(mov => mov > 0).map(deposit => (deposit * 1.2) / 100)
+  const interest = acc.movements.filter(mov => mov > 0).map(deposit => (deposit * acc.interestRate) / 100)
   .filter((int, i, arr) => {
     // console.log(arr);
     return int >= 1;
@@ -105,7 +102,6 @@ const calcDisplaySummary = function (movements) {
   labelSumInterest.textContent = `${interest}€`
 };
 
-calcDisplaySummary(account1.movements);
 
 
 const createUsernames = function (accs) {
@@ -119,7 +115,37 @@ const createUsernames = function (accs) {
 };
 
 createUsernames(accounts);
-// console.log(accounts);
+
+// Event handler
+let currentAccount;
+
+btnLogin.addEventListener('click', function(e) {
+  //  prevent forms from submitting
+  e.preventDefault(); 
+  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    
+    // Display UI and welcome message
+    labelWelcome.textContent = `welcome back, ${currentAccount.owner.split(' ')[0]}`;
+    containerApp.style.opacity = 100;
+
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+
+    // Display movements
+    displayMovements(currentAccount.movements);
+
+    // Display balance
+    calcDisplayBalance(currentAccount.movements);
+
+    // Display summary
+    calcDisplaySummary(currentAccount);
+  } else {
+    containerApp.textContent= 'ERROR!!! Invalid Pin OR Password';
+    containerApp.style.opacity = 100;
+  }
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -131,7 +157,7 @@ createUsernames(accounts);
 //   ['GBP', 'Pound sterling'],
 // ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 /*
@@ -312,16 +338,26 @@ console.log(avg1, avg2);
 */
 
 
-
-
+///////////////////////////
+// coding challenge #3
 /*
 Rewrite the 'calcAverageHumanAge' function from the previous challenge, but this time as an arrow function, and using chaining!
 
 TEST DATA 1: [5, 2, 4, 1, 15, 8, 3]
 TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
 GOOD LUCK
- */
+ 
 
+const calcAverageHumanAge2 = ages => 
+  ages
+.map(age => (age <= 2 ? 2 * age : 16 + age * 4))
+.filter(age => age >= 18)
+.reduce((acc, age, i, arr) => acc + age / arr.length, 0);
+
+const avg1 = calcAverageHumanAge2([5, 2, 4, 1, 15, 8, 3]);
+const avg2 = calcAverageHumanAge2([16, 6, 10, 5, 6, 1, 4]);
+console.log(avg1, avg2);
+*/
 /*
 // MAP
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
@@ -415,6 +451,40 @@ const totalDepositsUSD = movements
 console.log(totalDepositsUSD);
 */
 
-///////////////////////////
-// coding challenge #3
+
+/////////////////////////
+/*
+// FIND Method
+const firstWithdraral = movements.find(mov => mov < 0);
+console.log(movements);
+console.log(firstWithdraral);
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account);
+
+// For Reference
+
+for (const accounta of accounts) {
+  if (accounta.owner === 'Jessica Davis') {
+    console.log(accounta);
+  }
+}
+
+const jessica = [];
+for (const accounta of accounts) if (accounta.owner === 'Jessica Davis')jessica.push(accounta); 
+console.log(jessica);
+  
+// For Reference
+let accountb;
+for (const acc of accounts) {
+  if (acc.owner === 'Jessica Davis') {
+    accountb = acc;
+    break; // stop the loop once the account is found
+  }
+}
+
+console.log(accountb);
+*/
+
+
 
