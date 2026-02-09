@@ -80,7 +80,7 @@ const displayMovements = function (movements) {
 
 
 const calcDisplayBalance = function (movements) {
-
+  
 
   const banlance = movements.reduce((acc, mov) => acc + mov, 0);
   labelBalance.textContent = `${banlance}€`;
