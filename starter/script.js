@@ -79,11 +79,9 @@ const displayMovements = function (movements) {
 };
 
 
-const calcDisplayBalance = function (movements) {
-
-
-  const banlance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${banlance}€`;
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance}€`;
 };
 
 const calcDisplaySummary = function (acc) {
@@ -116,6 +114,16 @@ const createUsernames = function (accs) {
 
 createUsernames(accounts);
 
+const updateUI = function(acc) {
+  // Display movements
+  displayMovements(acc.movements);
+
+  // Display balance
+  calcDisplayBalance(acc);
+
+  // Display summary
+  calcDisplaySummary(acc);
+}
 // Event handler
 let currentAccount;
 
@@ -132,21 +140,62 @@ btnLogin.addEventListener('click', function(e) {
 
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
+    // UPDATE UI
+    updateUI(currentAccount);
 
-    // Display movements
-    displayMovements(currentAccount.movements);
-
-    // Display balance
-    calcDisplayBalance(currentAccount.movements);
-
-    // Display summary
-    calcDisplaySummary(currentAccount);
   } else {
     containerApp.textContent= 'ERROR!!! Invalid Pin OR Password';
     containerApp.style.opacity = 100;
   }
 });
 
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
+  
+  inputTransferAmount.value = inputTransferTo.value = '';
+
+  if (amount > 0 && currentAccount.balance >= amount && receiverAcc && receiverAcc?.username !== currentAccount.username) {
+    // Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+    // UPDATE UI
+    updateUI(currentAccount);
+  }
+});
+
+
+btnLoan.addEventListener('click', function(e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    currentAccount.movements.push(amount);
+
+    // UPDATE UI
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
+});
+
+
+
+btnClose.addEventListener('click', function(e) {
+  e.preventDefault();
+
+  if (inputCloseUsername.value === currentAccount.username && Number(inputClosePin.value) === currentAccount.pin) {
+
+    const index =accounts.findIndex(acc => acc.username === currentAccount.username);
+    console.log(index);
+
+    // Delte account
+    accounts.splice(index, 1);
+    containerApp.style.opacity = 0;
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
+})
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -486,34 +535,31 @@ for (const acc of accounts) {
 console.log(accountb);
 */
 
-
-
-// clear all
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+////////////////////////////
+// The FindIndex method
 /*
-const eurToUsd = 1.1;
+// The New findLast and findLastIndex
 
-// PIPELINE
-const totalDepositsUSD = movements
-  .filter(mov => mov > 0)
-  .map((mov, i, arr) => {
-    // console.log(arr);
-    return mov * eurToUsd;
-  })
-  // .map(mov => mov * eurToUsd)
-  .reduce((acc, mov) => acc + mov, 0);
-console.log(totalDepositsUSD);
-*/
-/*
-const eurToUsd = 1.1;
 
-// PIPELINE
-const totalDepositsUSD = movements
-  .filter(mov => mov > 0)
-  .map((mov, i, arr) => {
-    // console.log(arr);
-    return mov * eurToUsd;
-  })
-  // .map(mov => mov * eurToUsd)
-  .reduce((acc, mov) => acc + mov, 0);
-console.log(totalDepositsUSD);
+console.log(movements);
+
+const lastWithdrawal = movements.findLast(mov => mov < 0);
+console.log(lastWithdrawal);
+
+'Your latest large movement was X movements ago'
+
+const latestLargeMovement = movements.findLastIndex(mov =>Math.abs(mov) > 1000);
+console.log(`Your latest large movement was ${movements.length - latestLargeMovement} movements ago`);
 */
+
+// some and every
+
+// Equality
+console.log(movements);
+console.log(movements.includes(-130));
+
+// condition
+console.log(movements.some(mov => mov === -130));
+const anyDeposite = movements.some(mov => mov > 1500)
+console.log(anyDeposite);
