@@ -923,9 +923,9 @@ HINT 2: Being within a range 10% above and below the recommended portion means: 
 
 GOOD LUCK 😀
 */
-/*
+
 // solution
-// TEST DATA: recommendedFood = weight ** 0.75 * 28
+// TEST DATA:
 const dogs = [
   { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
   { weight: 8, curFood: 200, owners: ['Matilda'] },
@@ -979,4 +979,3 @@ const dogsGroupedByPortion = Object.groupBy(dogs, dog => {
   }
 });
 console.log(dogsGroupedByPortion);
-*/
