@@ -926,6 +926,7 @@ GOOD LUCK 😀
 
 // solution
 // TEST DATA:
+/*
 const dogs = [
   { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
   { weight: 8, curFood: 200, owners: ['Matilda'] },
@@ -979,3 +980,4 @@ const dogsGroupedByPortion = Object.groupBy(dogs, dog => {
   }
 });
 console.log(dogsGroupedByPortion);
+*/
