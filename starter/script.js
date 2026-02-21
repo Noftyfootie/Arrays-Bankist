@@ -993,3 +993,15 @@ const dogsGroupedByPortion = Object.groupBy(dogs, dog => {
   }
 });
 console.log(dogsGroupedByPortion);
+
+// 8.
+const dogsGroupedByPortion1 = Object.groupBy(dogs, dog => {
+  if (dog.curFood > dog.recFood) {
+    return 'too-much';
+  } else if (dog.curFood < dog.recFood) {
+    return 'too-little';
+  } else {
+    return 'exact';
+  }
+});
+console.log(dogsGroupedByPortion1);
