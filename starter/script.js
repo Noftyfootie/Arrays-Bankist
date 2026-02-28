@@ -1028,4 +1028,15 @@ const dogsGroupedByPort = Object.groupBy(dogs, dog => {
     return 'exact';
   }
 });
+
+// 8.
+const dogsGroupedByPor = Object.groupBy(dogs, dog => {
+  if (dog.curFood > dog.recFood) {
+    return 'too-much';
+  } else if (dog.curFood < dog.recFood) {
+    return 'too-little';
+  } else {
+    return 'exact';
+  }
+});
 console.log(dogsGroupedByPortio);
