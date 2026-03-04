@@ -985,3 +985,6 @@ console.log(dogsGroupedByPortion);
 // 7.
 const dogsEatingOkay = dogs.filter(checkEatingOkay);
 console.log(dogsEatingOkay);
+// 7.
+const dogsEating = dogs.filter(checkEatingOkay);
+console.log(dogsEatingOkay);
