@@ -988,3 +988,6 @@ console.log(dogsEatingOkay);
 // 7.
 const dogsEating = dogs.filter(checkEatingOkay);
 console.log(dogsEatingOkay);
+// 7.
+const dogsEating1 = dogs.filter(checkEatingOkay);
+console.log(dogsEatingOkay);
