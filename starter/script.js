@@ -1024,3 +1024,11 @@ const dogsGrouped = Object.groupBy(dogs, dog => {
   }
 });
 console.log(dogsGroupedByPortion);
+
+if (dog.curFood > dog.recFood) {
+  return 'too-much';
+} else if (dog.curFood < dog.recFood) {
+  return 'too-little';
+} else {
+  return 'exact';
+}
